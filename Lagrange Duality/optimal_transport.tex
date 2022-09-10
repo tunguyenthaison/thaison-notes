@@ -1,0 +1,36 @@
+
+\section{Analysis in metric spaces}
+
+
+\section{Optimal Transport}
+\subsection{The Kantorovich problem}
+\begin{defn}
+
+\end{defn}
+
+\subsection{The dual problem}
+\begin{defn}[DP - The dual problem] Given two probabilities measures $\mu, \nu$ and the cost function $c:X\times X\to [0,+\infty]$, we consider the problem
+\begin{equation*}
+    \mathrm{(DP)}\qquad
+     \max \left\lbrace \int_X \phi\,d\mu + \int_X\psi\;d\nu: \phi,\psi\in \mathrm{C}(X), \phi(x)+\psi(y)\leq c(x,y)\;\text{on}\;X\times X \right\rbrace.
+\end{equation*}
+
+\end{defn}
+\begin{defn}[The $c$-transform] Given a function $\chi:X\to \overline{\R}$, we define its $c$-transform or $c$-conjugate function by
+\begin{equation*}
+    \chi^c(y) = \inf_{x\in X} \Big(c(x,y) - \chi(x)\Big).
+\end{equation*}
+A function $\psi:X\to \overline{\R}$ is \emph{$c$-concave} if there exists $\chi:X\to \overline{\R}$ such that $\psi=\chi^c$. We denote
+\begin{equation*}
+    \Psi_c(X):= \big\lbrace  \psi:X\to \overline{R}: \psi\;\text{is}\;c\;\text{concave}\big\rbrace.
+\end{equation*}
+\end{defn}
+
+\begin{lem} \quad 
+\begin{itemize}
+    \item[(i)] For $\phi:X\to \overline{R}$ there holds $\phi^{ccc} = \phi^c$.
+    \item[(ii)] If $\psi:X\to \overline{R}$ is $c$-concave then $\psi^{cc} = \psi$.
+\end{itemize}
+\end{lem}
+
+\subsection{}

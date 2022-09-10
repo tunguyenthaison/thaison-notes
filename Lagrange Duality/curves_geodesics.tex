@@ -1,0 +1,72 @@
+\section{Curves and Geodesics in metric spaces}
+Let $(X, d)$ be a metric space. In $\R$ when we say a property is true for a.e. $t\in [a,b]$, we mean it is true for $\mathcal{L}^1$-a.e. in $[a,b]$ where $\mathcal{L}^1$ is the Lebesgue measure in $\R$.
+
+\begin{defn}[Curve in metric space] A continuous function $\gamma:[0,1]\to (X,d)$ is a curve.
+\end{defn}
+We can of course discuss if $\gamma$ is Lipschitz or not, however it is unclear to talk about $\gamma'(t)$ unless $X$ is a vector space - in which case we can define $\gamma'(t)$ using Gateaux's derivative or Fretch\'et derivative. However we can always define $|\gamma'|(t)$ as the modulus of the velocity.
+
+\begin{defn}[Metric derivative] If $\gamma:[0,1]\to X$ is curve valued in the metric space $(X,d)$ we define the metric derivative $\gamma$ at time $t$ by
+\begin{equation*}
+    |\gamma'|(t) := \lim_{h\to 0} \frac{d\big(\gamma(t+h), \gamma(t)\big)}{|h|},
+\end{equation*}
+provided this limit exists. 
+\end{defn}
+
+If the curve $\gamma$ is Lipschitz then it is possible to show that $|\gamma'(t)|$ exists for a.e. $t$. We define the class of absolutely continuous curves as follows.
+
+\begin{defn}[Absolutely continuous curve] A curve $\gamma:[0,1]\to (X,d)$ is \emph{absolutely continuous} if there exists $g\in L^1([0,1])$ such that 
+\begin{equation*}
+    d\big(\gamma(s), \gamma(t)\big) \leq \int_s^t g(\zeta)\,d\zeta \qquad 
+    \text{for every}\;s<t.
+\end{equation*}
+The set of absolutely continuous curves $[0,1]:\to (X,d)$ is denoted by $\mathrm{AC}([0,1];X)=\mathrm{AC}(X)$.
+\end{defn}
+
+
+\begin{thm} For any $\gamma\in \mathrm{AC}(X)$, the metric derivative $|\gamma'(t)|$ exists for a.e. $t\in [0,1]$. Furthermore, $|\gamma'|$ is the minimal function $g$ (up to a set of $\mathcal{L}^1$-measure zero) such that 
+\begin{equation*}
+    d\big(\gamma(s), \gamma(t)\big) \leq \int_s^t g(\zeta)\,d\zeta \qquad 
+    \text{for every}\;s<t.
+\end{equation*}
+\end{thm}
+
+We now can define the length of a continuous curve, and the notion of geodesic curves.
+
+\begin{defn}[Length] For a curve $\gamma:[0,1]\to X$, we define
+\begin{equation*}
+    \mathrm{Length}(\gamma): = \sup \left\lbrace \sum_{k=0}^{n-1}d\big(\gamma(t_k), \gamma(t_{k+1})\big): n\geq 1, 0=t_0<t_1<\ldots < t_n = 1 \right\rbrace.
+\end{equation*}
+\end{defn}
+
+It is clear that if $\gamma\in \mathrm{AC}([0,1];X)$ then $\mathrm{Length}(\gamma) \leq \int_0^1 g(s)\;ds < \infty$. We can obtain the equality with $|\gamma'|$ as follows.
+
+\begin{thm} If $\gamma\in \mathrm{AC}([0,1];X)$ then $\mathrm{Length}(\gamma) = \int_0^1 |\gamma'(s)|ds$.
+\end{thm}
+
+We now define the notion of \emph{geodesics} and \emph{length space}.
+\begin{defn} \quad 
+\begin{itemize}
+    \item[(i)] A curve $\gamma:[0,1]\to X$ is a geodesic between $x_0$ and $x_1$ if $\gamma(0) = x_0$, $\gamma(1) = x_1$ and 
+    \begin{equation*}
+        \mathrm{Length}(\gamma) = \min \big\lbrace \mathrm{Length}(\omega): \omega\in \mathrm{AC}([0,1];X), \omega(0)=x_0, \omega(1)=x_1\big\rbrace.
+    \end{equation*}
+    \item[(ii)] A space $(X,d)$ is a \emph{length space} if for every $x,y$ there holds
+    \begin{equation*}
+        d(x,y) = \inf \big\lbrace\mathrm{Length}(\omega): \omega\in \mathrm{AC}([0,1];X), \omega(0)=x, \omega(1)=y \big\rbrace.
+    \end{equation*}
+    \item[(iii)] A space $(X,d)$  is a \emph{geodesic space} if for every $x,y$ there holds
+    \begin{equation*}
+        d(x,y) = \min \big\lbrace\mathrm{Length}(\omega): \omega\in \mathrm{AC}([0,1];X), \omega(0)=x, \omega(1)=y \big\rbrace.
+    \end{equation*}
+\end{itemize}
+In other words, a geodesic space is a length space where there exist geodesics between any two points.
+\end{defn}
+
+We now turn attention to the notion of \emph{constant-speed geodesics} in a length space.
+
+\begin{defn}[Constant-speed geodesics in a length space] Let $(X,d)$ be a length space, a curve $\gamma:[t_0,t_1]\to X$ is a constant-speed geodesic between $\gamma(t_0)$ and $\gamma(t_1)$ if 
+\begin{equation*}
+    d\big(\gamma(t),\gamma(s)\big) = \frac{|t-s|}{t_1-t_0} d\big(\gamma(t_0),\gamma(t_1)\big) \qquad\text{for all}\; t,s \in [t_0,t_1].
+\end{equation*}
+
+\end{defn}

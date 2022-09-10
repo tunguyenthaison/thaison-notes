@@ -1,0 +1,139 @@
+\documentclass[12pt,oneside,reqno]{amsart}
+\usepackage{amsfonts,amsmath,amsthm}
+\usepackage{amssymb,epsfig}
+\usepackage{pgf,tikz}
+
+\usepackage{fancybox}
+\usepackage[T1]{fontenc}
+\usepackage{stmaryrd}
+
+
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\usepackage[top=2cm, bottom=2cm, outer=0cm, inner=0cm, footskip=0.35in]{geometry}
+
+
+\graphicspath{{figs/}}
+\AddToShipoutPictureBG{\includegraphics[width=\paperwidth,height=\paperheight]{paper}} % Added Background Picture
+
+
+\usepackage{fullpage}
+%\usepackage[notcite,notref]{showkeys}
+%\usepackage{eucal}
+
+
+\usepackage[unicode=true]{hyperref}
+\hypersetup{colorlinks = true}
+\hypersetup{
+    colorlinks = true,
+    linkcolor = {blue},
+    citecolor={blue}
+    % linkbordercolor = {red},
+%    <your other options...>,
+}
+
+
+\usepackage[above,below,verbose,section]{placeins}
+
+\makeatletter
+%%% Geogebra
+\usepackage{mathrsfs}
+%\usepackage[utf8]{vietnam}
+%\usepackage[vietnam]{babel}
+
+
+
+\usepackage{mathpazo}
+\usepackage[euler-digits]{eulervm}
+
+
+\usepackage{lastpage}
+\pagestyle{plain}
+
+
+\newcommand{\R}{\mathbb{R}}
+%\usepackage{titlesec}
+% \numberwithin{figure}{section}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{ass}{Assumption}
+\renewcommand{\theass}{}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{quest}{Question}
+\newtheorem{com}{Comment}
+\newtheorem{ex}{Example}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{remark}
+\newtheorem{rem}{\bf{Remark}}
+%\numberwithin{equation}{section}
+
+
+\definecolor{light-gray}{gray}{0.95}
+
+%opening
+%\thispagestyle{empty}
+
+
+\title{\textsc{Some Notes on the Eigenvalues of Elliptic PDEs}}
+
+\author{Son N. T. Tu}
+\date{Aug 17, 2022 (last updated)}
+
+
+
+\begin{document}
+
+\maketitle
+
+\section{Adjoint operators on Hilbert spaces}
+Let $H$ be a real Hilbert space with the inner product $(\cdot, \cdot)_H$ and the dual product (or pairing) $\langle f, u\rangle \in \R$ between $f\in H^*$ and $u\in H$. 
+
+\begin{thm}[Riesz Representation Theorem] For each $u^*\in H^*$ there exists a unique $u\in H$ such that $\langle u^*, v\rangle = (u, v)_H$ for all $v\in H$. The mapping $u^*\mapsto u$ is a linear isomorphism.
+\end{thm}
+
+If $A: H\to H$ is a bounded, linear operator, its adjoint operator $A^*: H\to H$ satisfies $(Au, v)_H = (u, A^*v)_H$ for all $u,v\in H$. We say that $A$ is symmetric if $A=A^*$.
+
+\begin{lem} If $A: H\to H$ is a bounded, linear operator then $A^*$ always exists and is linear, bounded.
+\end{lem}
+\begin{proof} Fix $v\in H$ and define $f_v:H\to \R$ by $f_v(u) = \langle f_v, u\rangle = (Au, v)_H$ for all $u\in H$. It is clear that $f\in H^*$ and thus by Riesz Representation Theorem there exists a unique $\hat{v}\in H$ such that $\langle f_v, u\rangle = (u,\hat{v})_H$ for all $u\in H$ and furthermore $f\mapsto \hat{v}$ is a linear isomorphism. Therefore
+\begin{equation*}
+    (Au, v)_H = (u, \hat{v})_H \qquad
+    \text{for all}\;u\in H.
+\end{equation*}
+Let us define $A^*v = \hat{v} \in H$. It is clear that $A^*$ is linear. It is bounded since 
+\begin{equation*}
+    \Vert A^* v\Vert = \Vert \hat{v}\Vert  = \Vert f_v\Vert = \max_{\Vert u\Vert = 1} \langle Au, v\rangle_H \leq \Vert Au\Vert \Vert v\Vert \leq \Vert A\Vert_{L(H,H)}\Vert v\Vert
+\end{equation*}
+for all $v\in H$.
+\end{proof}
+\section{Compact operators and Fredholm Theory}
+\begin{defn}
+Let $X$ and $Y$ be Banach spaces. A bounded linear operator $K:X\to Y$ is compact if for each bounded sequence $\{u_k\}_{k=1}^\infty\subset X$ the image $\{Ku_k\}_{k=1}^\infty \subset Y$ has a convergent subsequence to some limit in $Y$. 
+\end{defn}
+
+Let $H$ be a real Hilbert space with the inner product $(\cdot, \cdot)_H$ and the dual product (or pairing) $\langle f, u\rangle \in \R$ between $f\in H^*$ and $u\in H$.
+
+\begin{lem} If a linear, bounded operator $K:H\to H$ is compact and $u_k\rightharpoonup u$ in $H$ then $Ku_k\to Ku$ in $H$.
+\end{lem}
+
+\begin{proof} Weak convergence of $u_k$ implies its boundedness, thus by compactness of the operator $K$ there exists a subsequence $u_{k_j}$ and $v\in H$ such that $Ku_{k_j}\to v$. We claim $v = Ku$ to finish the proof. Indeed, we have
+\begin{equation*}
+    \Vert v - Ku\Vert = \left(v-Ku, v-Ku_{k_j}\right)_H + \left(v-Ku, Ku_{k_j} - Ku\right)_H.
+\end{equation*}
+The first term vanishes as $j\to \infty$ since $Ku_{k_j}\to v$. The second term also vanishes as $j\to \infty$ due to
+\begin{equation*}
+    \left(v-Ku, Ku_{k_j} - Ku\right)_H = \left(v-Ku, K\big(u_{k_j} - u\big)\right)_H = \left(K^*\big(v-Ku\big), u_{k_j} - u\right)_H
+\end{equation*}
+vanishes as $u_{k_j}\rightharpoonup u$.
+\end{proof}
+
+\begin{thm}[Compactness of adjoints] If a linear, bounded operator $K:H\to H$ is compact so is $K^*:H\to H$.
+\end{thm}
+
+
+\bibliography{references}{}
+\bibliographystyle{ieeetr}
+\end{document}

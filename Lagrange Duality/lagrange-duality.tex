@@ -1,0 +1,124 @@
+\subsection{The primal problem}
+ The \emph{primal} problem is the following minimization problem
+\begin{equation*}
+\begin{cases}
+    \begin{aligned}
+        & \min f_0(x) \\
+        & \;\text{such that}\; f_i(x)\leq 0 \qquad\qquad i=1,2,\ldots, m\\
+        & \;\text{such that}\; h_i(x)= 0 \qquad\qquad i=1,2,\ldots, p.
+    \end{aligned}
+\end{cases}
+\end{equation*}
+In other words, the primal problem is to find
+\begin{equation*}
+    \mathbf{x}^* = \mathrm{argmin}_{\mathbf{x}} f_0(\mathbf{x}) \qquad\text{subject to}\qquad 
+    \begin{cases}
+        f_i(\mathbf{x}) \leq 0 &\text{for}\;i=1,2,\ldots , m\\
+        h_i(\mathbf{x}) = 0 &\text{for}\;i=1,2,\ldots , p
+    \end{cases}
+\end{equation*}
+provided the domain is not empty.
+\medskip
+
+\subsection{Heuristic idea} Throughout this section we will follow \cite{DavidKnowles2010}. For simplicity, let us assume $h_i = 0$ for $i=1,2,\ldots,p$ so that we do not have any equality constraint. An obvious attempt is minimizing
+\begin{equation*}
+    J(x) = 
+    \begin{cases}
+        f_0(x) &\qquad\text{if}\; f_i(x)\leq 0\;\text{for all}\;i=1,\ldots, m\\
+        +\infty &\qquad\text{otherwise}.
+    \end{cases}
+\end{equation*}
+Denote by $I[\cdot]$ the inifnite step function, i.e.,
+\begin{equation*}
+    I[s] = 
+    \begin{cases}
+        0       &\qquad s\leq 0,\\
+        +\infty &\qquad \text{otherwise}
+    \end{cases}
+\end{equation*}
+we can rewrite $J[\cdot]$ as\footnote{We can think about $I[\cdot]$ as adding penalty to the constraint.}
+\begin{equation*}
+    J(x) = f_0(x) + \sum_{i=1}^m I[f_i(x)].
+\end{equation*}
+Minimizing $J(\cdot)$ is not an easy task as $I$ is not smooth and singular $\longrightarrow$ relax $I$ to something nicer: an easy way is to use linear function $I_\lambda[s] = \lambda s$ if $s>0$ and $I_\lambda[s] = 0$ otherwise. We look at
+\begin{equation*}
+    L(x,\underline{\lambda}) = f_0(x) + \sum_{i=1}^m \lambda_i f_i(x), \qquad \underline{\lambda} = (\lambda_1,\ldots, \lambda_m).
+\end{equation*}
+It is nice as it is a lower bound of $I$ for $\lambda \geq 0$, and furthermore one can recover the original function by observing
+\begin{equation*}
+    \max_{\underline{\lambda}} L(x,\lambda) = J(x).
+\end{equation*}
+The primal problem now is equivalent to 
+\begin{equation*}
+    \min_{x}\left( \max_{\underline{\lambda}} L(x,\underline{\lambda})\right).
+\end{equation*}
+\subsection{The dual problem} We can reverse the order of $\min, \max$ to obtain the \emph{dual} problem
+\begin{equation*}
+    \max_{\underline{\lambda}}\left( \min_{x} L(x,\underline{\lambda})\right) = \max_{\underline{\lambda}} g(\underline{\lambda}), \qquad \text{where}\qquad g(\underline{\lambda}) = \min_{x} L(x,\underline{\lambda}).
+\end{equation*}
+Advantages:
+\begin{itemize}
+    \item For each $\underline{\lambda}$, $g(\underline{\lambda})$ is a minimum of a family of affine functions of $\underline{\lambda}$, thus $\underline{\lambda}\to g(\underline{\lambda})$ is concave.
+    \item Maximum of a concave function attains solutions - an easy problem.
+\end{itemize}
+The hard part is finding $g(\underline{\lambda})$ by solving
+\begin{equation*}
+    \min_{x} L(x,\underline{\lambda}).    
+\end{equation*}
+\subsection{Relation between primal and dual} Since $\lambda s$ is a lower bound of $I[s]$, we see that $L(x,\underline{\lambda})$ is a lower bound of $J(x)$ for $\lambda\geq 0$. Therefore
+\begin{equation*}
+     \max_{\underline{\lambda}}\left( \min_{x} L(x,\underline{\lambda})\right)  \leq  \min_{x}\left( \max_{\underline{\lambda}} L(x,\underline{\lambda})\right)  = \min_{x} J(x).
+\end{equation*}
+In other words, by solving the the dual problem we obtain a lower bound for the primal problem. Let us define
+\begin{equation*}
+    p^* =  \max_{\underline{\lambda}}\left( \min_{x} L(x,\underline{\lambda})\right) \leq \min_{x}\left( \max_{\underline{\lambda}} L(x,\underline{\lambda})\right)  = d^*
+\end{equation*}
+as the optimal solution of the primal and dual problems, respectively. We say
+\begin{itemize}
+    \item Weak duality property: $p^*\leq d^*$.
+    \item Optimal duality gap: $d^*-p^* \geq 0$.
+    \item Strong duality means $d^*-p^* = 0$.
+\end{itemize}
+An easy case where strong duality holds is if there is a poitn $x^*$ such that $f_0(x)$ is minimized at $x^*$ while all inequality constraint is strict $f_i(x^*)<0$ for $i=1,\ldots, m$. In this case 
+\begin{equation*}
+    x^* = \mathrm{argmin}_{x} L(x,\underline{\lambda}^*) \qquad\text{where}\qquad \underline{\lambda}^* = \mathrm{argmax}_{\underline{\lambda}} g(\underline{\lambda}).
+\end{equation*}
+\subsection{Summary}
+\begin{itemize}
+    \item Duality gives another way to solve the original (potentially nonconvex) constrained problem.
+    \item \emph{If} $\min_x L(x,\underline{\lambda})$ is \emph{easy}, then $\max_{\underline{\lambda}} g(\underline{\lambda})$ is easy.
+    \item \emph{If strong duality holds also} then we solve the original problem. If not then we still have a lower bound for the original problem. 
+\end{itemize}
+\subsection{The KKT condition}
+\begin{itemize}
+    \item If \emph{strong duality} holds and $(x^*, \underline{\lambda}^*)$ is an optimal solution of the primal-dual then $x^*$ minimizes the \emph{unconstrained} problem
+    \begin{equation*}
+        \min_{x} L(x,\underline{\lambda}^*).
+    \end{equation*}
+    We can use the normal maximum principle to obtain \emph{the first KKT condition}.
+    \item The first KKT condition
+    \begin{equation*}
+        \nabla_x L(x^*,\underline{\lambda}^*) = \nabla f_0(x^*) +  \sum_{i=1}^m \lambda_i^* \nabla f_i(x^*) =0.
+    \end{equation*}
+    \textbf{Interpretations:}
+    \begin{itemize}
+        \item The gradient of the objective
+        function and constraint function must be parallel (and opposite). 
+        \item Moving along the constraint surface cannot improve the objective function.
+    \end{itemize}
+    \item By definition, we have
+    \begin{equation*}
+        f_0(x^*) = g(\underline{\lambda}^*) \leq L(x^*, \underline{\lambda}^*) = f_0(x^*) + \sum_{i=1}^m \underbrace{\lambda_i^* f_i(x^*)}_{\leq 0} \leq f_0(x^*).
+    \end{equation*}
+    \item The second KKT condition ($\lambda_i*\geq 0$ and $f_i(x^*)\leq 0$)
+    \begin{equation*}
+        \lambda_i^* f_i(x^*) = 0 \qquad\text{for all}\; i=1,2,\ldots, m.
+    \end{equation*}
+    \textbf{Interpretations:}
+    \begin{itemize}
+        \item This condition is known as \emph{complementary slackness}: either $\lambda_i = 0$ or $f_i(x^*) = 0$ for all $i\in \overline{1,m}$.
+        \item The constraint $i^{\text{th}}$ is \emph{inactive} meaning $\lambda_i = 0$, and $f_i(x^*)$ has some negative value $\longrightarrow$ disregard the constraint $i$ in the first KKT condition (they are inactive).
+        \item The constraint $i^{\text{th}}$ is \emph{active} meaning $f_i(x^*) = 0$ and $\lambda_i^*$ has some positive value.
+    \end{itemize}
+\end{itemize}
+\subsection{The general case and the KKT condition} In the general case when we add the equality constraints $g_i(x) = 0$, it gives us Lagrange multiplier and the full set of KKT condition with more variables.

@@ -1,0 +1,359 @@
+\section{Gradient flows in $\R^n$}
+\subsection{The differential equation with $\lambda$-convex functions}
+For a $\lambda$-convex function $F:\R^n\to \R$ and a given point $x_0\in \R^n$, the differential inclusion problem looks for an absolutely continuous curve $x:[0,T]\to \R^n$ such that
+\begin{equation}\label{eq:diff_inclusion}
+    \begin{cases}
+    \begin{aligned}
+        x'(t) &= -\partial_\lambda F(x(t)) \qquad \text{for a.e.}\;t > 0,\\
+        x(0)  &= x_0.
+    \end{aligned}
+    \end{cases}
+\end{equation}
+Here by definition $\tilde{F}(x) = F(x) - \frac{\lambda}{2}|x|^2$ is convex, and 
+\begin{equation*}
+    \partial \tilde{F}(x) = \left\lbrace  p\in \R^n: \tilde{F}(y) \geq \tilde{F}(x) + p\cdot (y-x)\;\text{for all}\;y\in \R^n\right\rbrace.
+\end{equation*}
+We define 
+\begin{equation*}
+    \partial_\lambda F(x)= \{p\in \R^n: p-\lambda x \in \partial \tilde{F}(x)\}.
+\end{equation*}
+In other words, we have
+\begin{equation*}
+\begin{aligned}
+    \partial_\lambda F(x) &= \left\lbrace  p\in \R^n: F(y) \geq F(x) + p\cdot (y-x) + \frac{\lambda}{2}|y-x|^2\;\text{for all}\;y\in \R^n\right\rbrace.
+    \end{aligned}
+\end{equation*}
+We drop the subscript $\partial_\lambda$ when there is no confusion (not to be confused with the normal subgradient $D^+F$). We observe
+\begin{align*}
+    F\;\text{is differentiale at}\;x &\qquad\Longleftrightarrow\qquad \tilde{F}\;\text{is differentiale at}\;x\\
+     \partial _\lambda F(x) = \{p\} &\qquad\Longleftrightarrow\qquad   \partial\tilde{F}(x) = \{\nabla \tilde{F}(x)\} = \left\lbrace \nabla F(x) - \lambda x \right\rbrace\\
+     &\qquad\Longleftrightarrow\qquad  p - \lambda x = \nabla F(x)\\
+     &\qquad\Longleftrightarrow\qquad  \partial_\lambda F(x) = \nabla F(x).
+\end{align*}
+
+\begin{thm} Suppose that $F$ is $\lambda$-convex and let $x(\cdot)$ be a solution of \eqref{eq:diff_inclusion}. If $t_0$ is a time such that 
+\begin{equation*}
+    t\mapsto \big(x(t), F(x(t))\big) \;\text{is differentiable at}\;t=t_0
+\end{equation*}
+then the subdifferentiale $\partial F(x(t_0))$ is contained in a hyperplane orthogonal to $x'(t_0)$. In particular, 
+\begin{equation*}
+    x'(t) = -\partial^\circ F(x(t)) \qquad\text{for a.e.}\;t.   
+\end{equation*}
+\end{thm}
+
+\begin{proof} Let $p\in \partial F(x(t_0))$, by definition
+\begin{equation*}
+    t\mapsto F(x(t)) - F(x(t_0)) - p\cdot \left(x(t)-x(t_0)\right) - \frac{\lambda}{2}\left|x(t) - x(t_0)\right|^2
+\end{equation*}
+has a minimum at $t=t_0$. As it is differentiable, we obtain
+\begin{equation*}
+    c_0 := \frac{d}{dt}F(x(t))\Big|_{t=t_0}  = p\cdot x'(t_0).
+\end{equation*}
+In other words, we have $\partial F(x(t_0))\subset H = \{p\in \R^n: p\cdot x'(t_0) = c_0 \}$, a hyperplane that is orthogonal to $x'(t_0)$. 
+
+If $x'(t_0)\in \partial F(x(t_0))$ (it holds for a.e. $t_0$, from the equation) then $\Vert x'(t_0)\Vert^2 = c_0$ and thus 
+\begin{equation*}
+    \mathrm{proj}_H(0) = x'(t_0).
+\end{equation*}
+Thus $x'(t_0)$ is the minimal norm element in $\partial F(x(t_0))$, therefore $x'(t_0) = -\partial^\circ F(x(t_0))$ for a.e. $t>0$.
+\end{proof}
+\subsection{Discretization in time with implicit scheme} Fix $\tau > 0$, we look for $\left\{x_k^\tau\right\}_{k}$ defined through the iterated scheme, called \emph{Minimizing Movement Scheme},
+\begin{equation}\label{eq:MMS}
+    x^\tau_{k+1} \in \mathrm{argmin}_{x}\left( F(x) + \frac{|x-x_k^\tau|^2}{2\tau}\right).
+\end{equation}
+Assumption on $F$ to have such a minimizer
+\begin{itemize}
+    \item $F$ is l.s.c. 
+    \item $F$ satisfies $F(x)\geq C_1-C_2|x|^2$.
+\end{itemize}
+The case $F$ is $\lambda$-convex is covered in these assumptions ($\lambda$-convexity makes strictly convex for small $\tau$, depending on the sign of $\lambda$). We can think of this sequence of points are values of the curve $x(t)$ at time $t=0,\tau, 2\tau, \ldots$.
+
+We turn back to the iterated scheme \eqref{eq:MMS}
+\begin{align*}
+    x^\tau_{k+1} \in \mathrm{argmin}_{x}\left( F(x) + \frac{|x-x_k^\tau|^2}{2\tau}\right) &\qquad\Longrightarrow\qquad\nabla F(x^\tau_{k+1}) + \frac{x^\tau_{k+1}-x^\tau_k}{\tau} = 0\\
+    &\qquad\Longrightarrow\qquad \frac{x^\tau_{k+1}-x^\tau_k}{\tau} =-\nabla F(x^\tau_{k+1}).
+\end{align*}
+This is \emph{implicit Euler scheme} for $x'(t) = -\nabla F(x(t))$. 
+\begin{itemize}
+    \item Implicit scheme is better than explicit scheme.
+    \item For $\tau\to 0$, the sequence we found (after some interpolation to fill the gap between $k\tau$ and $(k+1)\tau$) converges to the solution of the gradient flow.
+\end{itemize}
+Key ideas for the proof:
+\begin{itemize}
+    \item Define a constant-interpolation curve $x^\tau(\cdot)$
+    \item Define a constant-interpolation vector field $\mathbf{v}(\cdot)$ 
+    \item Define an affine-interpolation curve using the two things previously defined $\tilde{x}^\tau(\cdot)$.
+\end{itemize}
+
+\subsection{Analog of the scheme in metric spaces}
+We consider a metric space $(X,d)$ and a l.s.c function $F:X\to \R\cup \{+\infty\}$. We can still define the scheme 
+\begin{equation}\label{eq:MMS_metric}
+    x^\tau_{k+1} \in \mathrm{argmin}_{x}\left( F(x) + \frac{d\big(x,x_k^\tau\big)^2}{2\tau}\right)
+\end{equation}
+under some suitable compactness assumptions to have minimizer, and study $\tau\to 0$. We can do the piece-wise constant interpolation
+\begin{equation}\label{eq:constant-interpolation}
+    x^\tau(t) := x_k^\tau \qquad \text{for}\; t\in \big((k-1)\tau, k\tau \big]
+\end{equation}
+and study the limit as $\tau \to 0$. 
+\begin{defn}[Generalized Minimizing Movements - GMM] A curve $x:[0,T]\to X$ is called \emph{Generalized Minimizing Movements} if there exists a sequence of time steps $\tau_j\to 0$ such that the sequence of curves defined in \eqref{eq:constant-interpolation} and \eqref{eq:MMS_metric} \textbf{uniformly} converges to $x$ in $[0,T$.
+\end{defn}
+To mimic the proof in the Euclidean case, we need some structure (cannot use affine interpolation anymore), that is \emph{geodesics}. Let us suppose that $(X,d)$ is a \textbf{geodesics space}.
+
+\subsection{Curves and Geodesics in metric spaces}
+Let $(X, d)$ be a metric space. In $\R$ when we say a property is true for a.e. $t\in [a,b]$, we mean it is true for $\mathcal{L}^1$-a.e. in $[a,b]$ where $\mathcal{L}^1$ is the Lebesgue measure in $\R$.
+
+\begin{defn}[Curve in metric space] A continuous function $\gamma:[0,1]\to (X,d)$ is a curve.
+\end{defn}
+We can of course discuss if $\gamma$ is Lipschitz or not, however it is unclear to talk about $\gamma'(t)$ unless $X$ is a vector space - in which case we can define $\gamma'(t)$ using Gateaux's derivative or Fretch\'et derivative. However we can always define $|\gamma'|(t)$ as the modulus of the velocity.
+
+\begin{defn}[Metric derivative] If $\gamma:[0,1]\to X$ is curve valued in the metric space $(X,d)$ we define the metric derivative $\gamma$ at time $t$ by
+\begin{equation*}
+    |\gamma'|(t) := \lim_{h\to 0} \frac{d\big(\gamma(t+h), \gamma(t)\big)}{|h|},
+\end{equation*}
+provided this limit exists. 
+\end{defn}
+
+If the curve $\gamma$ is Lipschitz then it is possible to show that $|\gamma'(t)|$ exists for a.e. $t$. We define the class of absolutely continuous curves as follows.
+
+\begin{defn}[Absolutely continuous curve] A curve $\gamma:[0,1]\to (X,d)$ is \emph{absolutely continuous} if there exists $g\in L^1([0,1])$ such that 
+\begin{equation*}
+    d\big(\gamma(s), \gamma(t)\big) \leq \int_s^t g(\zeta)\,d\zeta \qquad 
+    \text{for every}\;s<t.
+\end{equation*}
+The set of absolutely continuous curves $[0,1]:\to (X,d)$ is denoted by $\mathrm{AC}([0,1];X)=\mathrm{AC}(X)$.
+\end{defn}
+
+
+\begin{thm} For any $\gamma\in \mathrm{AC}(X)$, the metric derivative $|\gamma'(t)|$ exists for a.e. $t\in [0,1]$. Furthermore, $|\gamma'|$ is the minimal function $g$ (up to a set of $\mathcal{L}^1$-measure zero) such that 
+\begin{equation*}
+    d\big(\gamma(s), \gamma(t)\big) \leq \int_s^t g(\zeta)\,d\zeta \qquad 
+    \text{for every}\;s<t.
+\end{equation*}
+\end{thm}
+
+We now can define the length of a continuous curve, and the notion of geodesic curves.
+
+\begin{defn}[Length] For a curve $\gamma:[0,1]\to X$, we define
+\begin{equation*}
+    \mathrm{Length}(\gamma): = \sup \left\lbrace \sum_{k=0}^{n-1}d\big(\gamma(t_k), \gamma(t_{k+1})\big): n\geq 1, 0=t_0<t_1<\ldots < t_n = 1 \right\rbrace.
+\end{equation*}
+\end{defn}
+
+It is clear that if $\gamma\in \mathrm{AC}([0,1];X)$ then $\mathrm{Length}(\gamma) \leq \int_0^1 g(s)\;ds < \infty$. We can obtain the equality with $|\gamma'|$ as follows.
+
+\begin{thm} If $\gamma\in \mathrm{AC}([0,1];X)$ then $\mathrm{Length}(\gamma) = \int_0^1 |\gamma'(s)|ds$.
+\end{thm}
+
+We now define the notion of \emph{geodesics} and \emph{length space}.
+\begin{defn} \quad 
+\begin{itemize}
+    \item[(i)] A curve $\gamma:[0,1]\to X$ is a geodesic between $x_0$ and $x_1$ if $\gamma(0) = x_0$, $\gamma(1) = x_1$ and 
+    \begin{equation*}
+        \mathrm{Length}(\gamma) = \min \big\lbrace \mathrm{Length}(\omega): \omega\in \mathrm{AC}([0,1];X), \omega(0)=x_0, \omega(1)=x_1\big\rbrace.
+    \end{equation*}
+    \item[(ii)] A space $(X,d)$ is a \emph{length space} if for every $x,y$ there holds
+    \begin{equation*}
+        d(x,y) = \inf \big\lbrace\mathrm{Length}(\omega): \omega\in \mathrm{AC}([0,1];X), \omega(0)=x, \omega(1)=y \big\rbrace.
+    \end{equation*}
+    \item[(iii)] A space $(X,d)$  is a \emph{geodesic space} if for every $x,y$ there holds
+    \begin{equation*}
+        d(x,y) = \min \big\lbrace\mathrm{Length}(\omega): \omega\in \mathrm{AC}([0,1];X), \omega(0)=x, \omega(1)=y \big\rbrace.
+    \end{equation*}
+\end{itemize}
+In other words, a geodesic space is a length space where there exist geodesics between any two points.
+\end{defn}
+
+We now turn attention to the notion of \emph{constant-speed geodesics} in a length space.
+
+\begin{defn}[Constant-speed geodesics in a length space] Let $(X,d)$ be a length space, a curve $\gamma:[t_0,t_1]\to X$ is a constant-speed geodesic between $\gamma(t_0)$ and $\gamma(t_1)$ if 
+\begin{equation*}
+    d\big(\gamma(t),\gamma(s)\big) = \frac{|t-s|}{t_1-t_0} d\big(\gamma(t_0),\gamma(t_1)\big) \qquad\text{for all}\; t,s \in [t_0,t_1].
+\end{equation*}
+\end{defn}
+
+\subsection{Analog of the scheme in metric spaces - using geodesics - integral}
+We define the approximation curve $x^\tau(t)$ for $t\in [0,T]$ as follows.
+\begin{itemize}
+    \item Let $x^\tau(k\tau) = x^\tau_k$ for $k=1,2,\ldots$
+    \item $x^\tau(\cdot)$ restricted to any interval $\big[k\tau, (k+1)\tau\big]$ is a \emph{constant-speed geodesic} with speed equal to 
+    \begin{equation*}
+        \frac{d\big(x^\tau_k, x^\tau_{k+1}\big)}{\tau}.
+    \end{equation*}
+\end{itemize}
+Then the same computations as in the Euclidean space can be done similarly to get an $H^1$-bound on the curve $x^\tau$, i.e., an $L^2$-bound on the metric derivative $\big|(x^\tau)'\big|$ and prove continuity.
+\subsection{Characterizing the limit curve - connection to gradient flow in metric spaces}
+We use an alternative way of defining gradient flow by using \emph{integral}. Note that 
+\begin{equation*}
+    F\big(x(s)\big) - F\big(x(t)\big) = \int_s^t -\nabla F(x(r))\cdot x'(r)\;dr \leq \int_s^t\left(\frac{1}{2}|\nabla F(x(r))|^2 + \frac{1}{2}|x'(r)|^2\right)\;dr.
+\end{equation*}
+Identity happens only if 
+\begin{equation*}
+    x'(r) = -\nabla F(x(r)).
+\end{equation*}
+Therefore we can use this integral equation as a definition for the gradient flow.
+\begin{defn}[Energy Dissipation Equality - EDE] 
+\begin{equation*}
+    F\big(x(s)\big) - F\big(x(t)\big) = \int_s^t\left(\frac{1}{2}|\nabla F(x(r))|^2 + \frac{1}{2}|x'(r)|^2\right)\;dr, \qquad \text{for all}\;s<t.
+\end{equation*}
+\end{defn}
+
+\subsection{Analog of the scheme in metric spaces - using geodesics - subgradient}
+We use these convex observations
+\begin{itemize}
+    \item If $F:\R^d\to \R$ is convex, then the inequality
+        \begin{equation*}
+            F(y)\geq F(x) + p\cdot (y-x) \qquad\text{for all}\;y\in \R^d
+        \end{equation*}
+        characterize all vector $p\in \partial F(x)$. 
+    \item If $F:\R^d\to \R$ is $\lambda$-convex, then the inequality
+        \begin{equation*}
+            F(y)\geq F(x) + p\cdot (y-x) + \frac{\lambda}{2}|y-x|^2 \qquad\text{for all}\;y\in \R^d
+        \end{equation*}
+        characterize all vector $p\in \partial F(x) \sim \partial_\lambda F(x)$. 
+\end{itemize}
+If we pick a curve $x(t)$ and a point $y$, then we can compute
+\begin{equation*}
+    \frac{d}{dt}\left(\frac{1}{2}|x(t)-y|^2\right) = (y-x(t))\cdot \big(-x'(t)\big).
+\end{equation*}
+Consequently, imposing
+\begin{defn}[Evolution Variational Inequality - EVI]
+\begin{equation*}
+    \frac{d}{dt}\left(\frac{1}{2}|x(t)-y|^2\right)  \leq F(y)-F(x)-\frac{\lambda}{2}|x(t)-y|^2, \qquad\text{for all}\;y.
+\end{equation*}
+\end{defn}
+This will be equivalent to 
+\begin{equation*}
+    -x'(t)\in -\partial F(x(t)).
+\end{equation*}
+Note that the $\lambda$-convexity has the analog of $\lambda$-geodesics convexity in the metric space, thus allow generalization.
+
+\subsection{Analog of the scheme in metric spaces - using geodesics}
+We assume $F:X\to \R\cup \{+\infty\}$. Fix a time step $\tau>0$, we need to do optimally via a "variational interpolation". between $x^\tau_k$ and $x^\tau_{k+1}$.
+\begin{itemize}
+    \item Fix $x^\tau_k$.
+    \item For every $\theta\in (0,1]$, consider the problem
+    \begin{equation*}
+        \min_x \left(F(x) + \frac{d^2(x,x^\tau_k)}{2\theta \tau}\right)
+    \end{equation*}
+    and call $x(\theta)$ a minimizer for this problem, and $\varphi(\theta)$ the minimal value.
+    \begin{equation*}
+        \varphi'(\theta) = -\frac{d^2\big(x(\theta), x^\tau_k\big)}{2\theta \tau}
+    \end{equation*}
+\end{itemize}
+Eventually we can show EVE.
+\subsection{Uniqueness}
+Complicated.
+
+\subsection{Optimal transport}
+
+\subsection{The Monge problem}
+Given two densities of mass $f,g\geq 0$ on $\R^d$ with $\int f = \int g = 1$, find a map $T:\R^d\to \R^d$ pushing the fist one to another
+\begin{equation*}
+    \int_A g(x)dx = \int_{T^{-1}(A)} f(y)dy \qquad\text{for any Borel set}\;A\subset\R^d
+\end{equation*}
+while mimizing
+\begin{equation*}
+    \int_{\R^d} |T(x)-x|f(x)dx.
+\end{equation*}
+\subsection{Push-forward}
+If $T:X\to Y$, we have $T_\#\mu = \nu$ such that
+\begin{equation*}
+    (T_\#\mu)(A) = \mu(T^{-1}(A)) \qquad\text{for every measurable set}\;A
+\end{equation*}
+or
+\begin{equation*}
+    \int_Y \phi d(T_\#\mu) = \int_X \phi\circ T d\mu \qquad \qquad\text{for every measurable function}\;\phi,
+\end{equation*}
+
+\subsection{The Kantorovich problem}
+Consider a metric space $X$ and a cost $c(x,y):X\times X\to [0,+\infty]$ that is symmetric. Given two probability measures $\mu, \nu\in \mathcal{P}(X)$, consider
+\begin{equation*}
+    \mathrm{(KP)}\qquad \min \left\lbrace  \int_{X\times X} cd\gamma: \gamma\in \Pi(\mu, \nu)\right\rbrace
+\end{equation*}
+where $\Pi(\mu, \nu)$ is the set of \emph{transport plans}, i.e.,
+\begin{equation*}
+    \Pi(\mu, \nu) = \{\gamma\in \mathcal{P}(X\times X): (\pi_0)_\#\gamma = \mu, (\pi_1)_\#\gamma = \nu\}. 
+\end{equation*}
+\subsection{The dual problem}
+\begin{defn}[DP - The dual problem] Given two probabilities measures $\mu, \nu$ and the cost function $c:X\times X\to [0,+\infty]$, we consider the problem
+\begin{equation*}
+    \mathrm{(DP)}\qquad
+     \max \left\lbrace \int_X \phi\,d\mu + \int_X\psi\;d\nu: \phi,\psi\in \mathrm{C}(X), \phi(x)+\psi(y)\leq c(x,y)\;\text{on}\;X\times X \right\rbrace.
+\end{equation*}
+\end{defn}
+\begin{defn}[The $c$-transform] Given a function $\chi:X\to \overline{\R}$, we define its $c$-transform or $c$-conjugate function by
+\begin{equation*}
+    \chi^c(y) = \inf_{x\in X} \Big(c(x,y) - \chi(x)\Big).
+\end{equation*}
+A function $\psi:X\to \overline{\R}$ is \emph{$c$-concave} if there exists $\chi:X\to \overline{\R}$ such that $\psi=\chi^c$. We denote
+\begin{equation*}
+    \Psi_c(X):= \big\lbrace  \psi:X\to \overline{R}: \psi\;\text{is}\;c\;\text{concave}\big\rbrace.
+\end{equation*}
+\end{defn}
+
+\begin{lem} \quad 
+\begin{itemize}
+    \item[(i)] For $\phi:X\to \overline{R}$ there holds $\phi^{ccc} = \phi^c$.
+    \item[(ii)] If $\psi:X\to \overline{R}$ is $c$-concave then $\psi^{cc} = \psi$.
+\end{itemize}
+\end{lem}
+\subsection{The Wassertein distances}
+\begin{equation*}
+    W_p(\mu, \nu) = \Big(\min \left\lbrace  \int_{X\times X} cd\gamma: \gamma\in \Pi(\mu, \nu)\right\rbrace\Big)^{\frac{1}{p}} \qquad\text{with}\;c(x,y) = |x-y|^p.
+\end{equation*}
+\begin{thm} Let $(\mu_t)_{t\in[0,1]}$ be an absolutely continuous curve in $\mathbb{W}_p(\Omega)$ for $p>1$. Then for a.e. $t\in [0,1]$ there exists a vector field $\mathbf{v}_t\in L^p(\mu_t;\R^d)$ such that
+\begin{itemize}
+    \item $\partial_t \mu_t + \nabla \cdot (\mathbf{v}_t\mu_t) = 0$ in the sense of distributions,
+    \item $\Vert \mathbb{v}_t\Vert_{L^p(\mu_t)} \leq |\mu'|(t)$.
+\end{itemize}
+Conversely, if $(\mu_t)_{t\in[0,1]}$ is a family of measures in $\mathcal{P}_p(\Omega)$ and for each $t$ there is a vector field $\mathbf{v}_t\in L^p(\mu_t,\R^d)$ with $\int_0^1 \Vert \mathbf{v}_t\Vert_{L^p(\mu_t)}dt < \infty$ solving $\partial_t \mu_t + \nabla \cdot (\mathbf{v}_t\mu_t) = 0$ then $(\mu_t)_{t\in[0,1]}$ be an absolutely continuous curve in $\mathbb{W}_p(\Omega)$ and for a.e. $t$ we have $|\mu'|(t)| \leq \Vert \mathbb{v}_t\Vert_{L^p(\mu_t)} $.
+\end{thm}
+
+\subsection{Minimizing movement schemes in the Wasserstein space and evolution PDEs}
+
+Study the gradient flow in $\mathbb{W}_2(\Omega)$ and to connect them to PDEs of the form of a continuity equation.
+
+\begin{enumerate}
+    \item[1.] Consider the time-discretized problem
+    \begin{equation}\label{eq:Minimize_measures}
+        \rho^\tau_{k+1} \in \mathrm{argmin}_{\rho} \left(F(\rho) + \frac{W_2^2(\rho, \rho^\tau_k)}{2\tau}\right)
+    \end{equation}
+    \item[2.] The minimization problem involving $F(\rho)$ and a transport cost of the form
+    \begin{equation*}
+        \mathcal{T}_c(\rho, \nu) = \min \left\lbrace \int c(x,y)\;d\gamma: \gamma\in \Pi(\rho,\nu) \right\rbrace \qquad\text{for}\;\nu = \rho^\tau_k.
+    \end{equation*}
+    \item[3.] Given a functional $G:\mathcal{P}(\Omega)\to \R$ we call $\frac{\delta G}{\delta \rho}(\rho)$ (if exists) the first variation such that
+    \begin{equation*}
+        \frac{d}{d\varepsilon} G(\rho+\varepsilon\chi)|_{\varepsilon = 0} = \int \frac{\delta G}{\delta \rho}d\chi
+    \end{equation*}
+    for every perturbation $\chi$.
+\end{enumerate}
+\begin{prop} Let $c:\Omega\times \Omega \to \R$ be a continuous cost function. Then the functional $\rho \mapsto \mathcal{T}_c(\rho,\nu)$ is convex. Then the functional
+\begin{equation*}
+    \rho \mapsto \mathcal{T}_c(\rho,\nu)
+\end{equation*}
+is convex, and its subdifferential at $\rho_0$ coincies with the set of Kantorovich potential
+\begin{equation*}
+    \partial \mathcal{T}_c(\rho_0) = \left\lbrace \varphi\in \mathrm{C}^0(\Omega): \int \varphi d\rho_0 + \int \varphi^c\;d\nu = \mathcal{T}_c(\rho_0,\nu)\right\rbrace.
+\end{equation*}
+Moreover, if there is a unique $c$-concave Kantorovich potential $\varphi$ from $\rho_0$  to $\nu$ then
+\begin{equation*}
+    \frac{\delta \mathcal{T}_c(\rho,\nu)}{\delta \rho}(\rho_0) = \varphi.
+\end{equation*}
+\end{prop}
+\begin{enumerate}
+    \item[4.] Going back to the minimization problem \eqref{eq:Minimize_measures}, roughly speaking we should get, from $k\tau$ to $(k+1)\tau$ that
+    \begin{equation*}
+        \frac{\delta F}{\delta \rho}\big(\rho_{k+1}^\tau\big) + \frac{\varphi}{\tau} = \mathrm{const}.
+    \end{equation*}
+    Here $\varphi$ is the Kantorovich potential associated with the transport from $\rho^\tau_{k+1}$ to $\rho^\tau_k$ (\textbf{not vice-versa}).
+    \item[5.] The optimal transport map $T(x) = x-\nabla \varphi(x)$ then
+    \begin{equation*}
+        -\mathbf{v}(x) = \frac{T(x)-x}{\tau}  -\frac{\nabla \varphi(x)}{\tau} = \nabla \left(\frac{\delta F}{\delta\rho}\big(\rho_{k+1}^\tau\big)\right)
+    \end{equation*}
+    \item[6.] This suggests that as $\tau\to 0$ we have the associated continuity equation 
+    \begin{equation*}
+        \partial_t \mu_t + \nabla \cdot (\mathbf{v}_t\mu_t) = 0 \quad \Longrightarrow\quad \partial_t \rho - \nabla \left(\rho\nabla \left(\frac{\delta F}{\delta \rho}(\rho)\right)\right) = 0.
+    \end{equation*}
+\end{enumerate}
+

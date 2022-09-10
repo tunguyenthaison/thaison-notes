@@ -1,0 +1,106 @@
+\documentclass[12pt,oneside,reqno]{amsart}
+\usepackage{amsfonts,amsmath,amsthm}
+\usepackage{amssymb,epsfig}
+\usepackage{pgf,tikz}
+
+\usepackage{fancybox}
+\usepackage[T1]{fontenc}
+\usepackage{stmaryrd}
+
+
+\usepackage{graphicx}
+\usepackage{eso-pic}
+\usepackage[top=2cm, bottom=2cm, outer=0cm, inner=0cm, footskip=0.35in]{geometry}
+
+
+\graphicspath{{figs/}}
+\AddToShipoutPictureBG{\includegraphics[width=\paperwidth,height=\paperheight]{paper}} % Added Background Picture
+
+
+\usepackage{fullpage}
+%\usepackage[notcite,notref]{showkeys}
+%\usepackage{eucal}
+
+
+\usepackage[unicode=true]{hyperref}
+\hypersetup{colorlinks = true}
+\hypersetup{
+    colorlinks = true,
+    linkcolor = {blue},
+    citecolor={blue}
+    % linkbordercolor = {red},
+%    <your other options...>,
+}
+
+
+\usepackage[above,below,verbose,section]{placeins}
+
+\makeatletter
+%%% Geogebra
+\usepackage{mathrsfs}
+%\usepackage[utf8]{vietnam}
+%\usepackage[vietnam]{babel}
+
+
+
+\usepackage{mathpazo}
+% \usepackage[euler-digits]{eulervm}
+
+
+\usepackage{lastpage}
+\pagestyle{plain}
+
+
+\newcommand{\R}{\mathbb{R}}
+%\usepackage{titlesec}
+% \numberwithin{figure}{section}
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{ass}{Assumption}
+\renewcommand{\theass}{}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{quest}{Question}
+\newtheorem{com}{Comment}
+\newtheorem{ex}{Example}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\theoremstyle{remark}
+\newtheorem{rem}{\bf{Remark}}
+%\numberwithin{equation}{section}
+
+
+\definecolor{light-gray}{gray}{0.95}
+
+%opening
+%\thispagestyle{empty}
+
+
+\title{\textsc{Some notes}}
+
+\author{Sapphire Tam}
+\date{Aug 17, 2022 (last updated)}
+
+
+
+\begin{document}
+
+\maketitle
+
+% \section{Introduction}
+% \input{Lagrange Duality/lagrange-duality}
+% \input{Lagrange Duality/optimal_transport}
+% \input{Lagrange Duality/curves_geodesics}
+% \input{Lagrange Duality/gradient_flows}
+% \clearpage 
+
+\input{research-notes/meeting-09-07-22}
+
+% \input{ODEs/odes}
+
+
+
+\bibliography{references}{}
+\bibliographystyle{ieeetr}
+\end{document}

@@ -1,0 +1,59 @@
+
+
+For a $\lambda$-convex function $F:\R^n\to \R$ and a given point $x_0\in \R^n$, the differential inclusion problem looks for an absolutely continuous curve $x:[0,T]\to \R^n$ such that
+\begin{equation}\label{eq:diff_inclusion}
+    \begin{cases}
+    \begin{aligned}
+        x'(t) &= -\partial_\lambda F(x(t)) \qquad \text{for a.e.}\;t > 0,\\
+        x(0)  &= x_0.
+    \end{aligned}
+    \end{cases}
+\end{equation}
+Here by definition $\tilde{F}(x) = F(x) - \frac{\lambda}{2}|x|^2$ is convex, and 
+\begin{equation*}
+    \partial \tilde{F}(x) = \left\lbrace  p\in \R^n: \tilde{F}(y) \geq \tilde{F}(x) + p\cdot (y-x)\;\text{for all}\;y\in \R^n\right\rbrace.
+\end{equation*}
+We define 
+\begin{equation*}
+    \partial_\lambda F(x)= \{p\in \R^n: p-\lambda x \in \partial \tilde{F}(x)\}.
+\end{equation*}
+In other words, we have
+\begin{equation*}
+\begin{aligned}
+    \partial_\lambda F(x) &= \left\lbrace  p\in \R^n: F(y) \geq F(x) + p\cdot (y-x) + \frac{\lambda}{2}|y-x|^2\;\text{for all}\;y\in \R^n\right\rbrace.
+    \end{aligned}
+\end{equation*}
+We drop the subscript $\partial_\lambda$ when there is no confusion (not to be confused with the normal subgradient $D^+F$). We observe
+\begin{align*}
+    F\;\text{is differentiale at}\;x &\qquad\Longleftrightarrow\qquad \tilde{F}\;\text{is differentiale at}\;x\\
+     \partial _\lambda F(x) = \{p\} &\qquad\Longleftrightarrow\qquad   \partial\tilde{F}(x) = \{\nabla \tilde{F}(x)\} = \left\lbrace \nabla F(x) - \lambda x \right\rbrace\\
+     &\qquad\Longleftrightarrow\qquad  p - \lambda x = \nabla F(x)\\
+     &\qquad\Longleftrightarrow\qquad  \partial_\lambda F(x) = \nabla F(x).
+\end{align*}
+
+\begin{thm} Suppose that $F$ is $\lambda$-convex and let $x(\cdot)$ be a solution of \eqref{eq:diff_inclusion}. If $t_0$ is a time such that 
+\begin{equation*}
+    t\mapsto \big(x(t), F(x(t))\big) \;\text{is differentiable at}\;t=t_0
+\end{equation*}
+then the subdifferentiale $\partial F(x(t_0))$ is contained in a hyperplane orthogonal to $x'(t_0)$. In particular, 
+\begin{equation*}
+    x'(t) = -\partial^\circ F(x(t)) \qquad\text{for a.e.}\;t.   
+\end{equation*}
+\end{thm}
+
+\begin{proof} Let $p\in \partial F(x(t_0))$, by definition
+\begin{equation*}
+    t\mapsto F(x(t)) - F(x(t_0)) - p\cdot \left(x(t)-x(t_0)\right) - \frac{\lambda}{2}\left|x(t) - x(t_0)\right|^2
+\end{equation*}
+has a minimum at $t=t_0$. As it is differentiable, we obtain
+\begin{equation*}
+    c_0 := \frac{d}{dt}F(x(t))\Big|_{t=t_0}  = p\cdot x'(t_0).
+\end{equation*}
+In other words, we have $\partial F(x(t_0))\subset H = \{p\in \R^n: p\cdot x'(t_0) = c_0 \}$, a hyperplane that is orthogonal to $x'(t_0)$. 
+
+If $x'(t_0)\in \partial F(x(t_0))$ (it holds for a.e. $t_0$, from the equation) then $\Vert x'(t_0)\Vert^2 = c_0$ and thus 
+\begin{equation*}
+    \mathrm{proj}_H(0) = x'(t_0).
+\end{equation*}
+Thus $x'(t_0)$ is the minimal norm element in $\partial F(x(t_0))$, therefore $x'(t_0) = -\partial^\circ F(x(t_0))$ for a.e. $t>0$.
+\end{proof}
